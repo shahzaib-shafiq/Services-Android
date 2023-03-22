@@ -9,19 +9,28 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class MusicPlayer  extends Service {
 
     private static final String TAG="";
     private MediaPlayer mediaPlayer;
 private final Binder mbinder = new MyServiceBinder();
+    int CurrentIndex=0;
 
-
-
+    ArrayList<Integer> music = new ArrayList<>();
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate: ");
         super.onCreate();
-        mediaPlayer=MediaPlayer.create(this,R.raw.music1);
+
+
+        music.add(0,R.raw.music1);
+        music.add(1,R.raw.music2);
+        music.add(2,R.raw.music3);
+        music.add(3,R.raw.music4);
+
+        mediaPlayer=MediaPlayer.create(this,music.get(CurrentIndex));
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mediaPlayer) {
@@ -84,6 +93,57 @@ private final Binder mbinder = new MyServiceBinder();
     public void Pause()
     {
         mediaPlayer.pause();
+    }
+
+
+    public void Stop()
+    {
+        mediaPlayer.stop();
+    }
+
+
+    public void Next(){
+
+
+        if(CurrentIndex < music.size()-1 )
+        {
+            //increment the current index to move to the next song
+
+     CurrentIndex++;
+        }
+        else {
+            CurrentIndex=0;
+        }
+        if(mediaPlayer.isPlaying())
+        {
+            mediaPlayer.stop();
+        }
+        mediaPlayer=MediaPlayer.create(this,music.get(CurrentIndex));
+        mediaPlayer.start();
+
+    }
+
+
+
+
+    public void Previous(){
+
+        if(CurrentIndex>0)
+        {
+            CurrentIndex--;
+
+        }
+        else {
+            CurrentIndex=music.size()-1;
+
+        }
+        if(mediaPlayer.isPlaying())
+        {
+            mediaPlayer.stop();
+
+        }
+        mediaPlayer=MediaPlayer.create(this,music.get(CurrentIndex));
+        mediaPlayer.start();
     }
 
 }

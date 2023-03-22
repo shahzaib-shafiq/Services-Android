@@ -4,5 +4,7 @@
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="forward">Forward</string>
-    <string name="backward">Backward</string>
+    <string name="backward">Back</string>
+    <string name="music_player">MUSIC PLAYER</string>
+    <string name="music_app">MUSIC APP</string>
 </resources>
